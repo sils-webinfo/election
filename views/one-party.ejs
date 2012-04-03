@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Election Data: <%=item.name%></title>
+  </head>
+  <body>
+    <a href="/"><h1>Election Data</h1></a>
+    <dl>
+      <dt>Party name</dt>
+      <dd><%=item.name%></dd>
+      <dt>Description</dt>
+      <dd><%=item.description%></dd>
+      <dt>Candidates</dt>
+      <dd>
+        <ul>
+          <% related_items.forEach(function(related_item) { %>
+          <li>
+            <a href="/candidates/<%=related_item._id%>">
+              <%=related_item.name%>
+            </a>
+          </li>
+          <% }); %>
+        </ul>
+      </dd>
+    </dl>
+    <div>
+      <div>Add a new candidate</div>
+      <form id="create-candidate" method="post" action="/candidates/">
+        <input type="hidden" name="party" value="<%=item._id%>">
+        <!-- The line above links the candidate to be created to this party. -->
+        <p>
+          <label>Candidate name: 
+            <input name="name" type="text" required
+                   placeholder="Ron Paul">
+          </label>
+        </p>
+        <p>
+          <label>Candidate image URL:
+            <input name="image" type="url" 
+                   placeholder="http://www.ronpaul2012.com/wp-content/themes/ronpaul/images/bg-header.jpg">
+          </label>
+        </p>
+      </form>
+    </div>
+  </body>
+</html>

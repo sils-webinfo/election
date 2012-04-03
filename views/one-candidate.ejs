@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Election Data: <%=item.name%></title>
+  </head>
+  <body>
+    <a href="/"><h1>Election Data</h1></a>
+    <dl>
+      <dt>Name</dt>
+      <dd><%=item.name%></dd>
+      <dt>Party</dt>
+      <dd><a href="/parties/<%=item.party%>"><%=item.party%></a></dd>
+      <dt>Image</dt>
+      <dd><img src="<%=item.image%>" alt="<%=item.name%>"></dd>
+    </dl>
+    <div>
+      <div>Update candidate</div>
+      <form id="update-candidate" method="post" action="/candidates/<%=item._id%>"
+        <input type="hidden" name="_method" value="put">
+        <!-- The line above tells the server to treat this as a PUT request. -->
+        <p>
+          <label>Name: 
+            <input name="name" value="<%=item.name%>" type="text" required>
+          </label>
+        </p>
+        <p>
+          <label>Party: 
+            <select name="party" required>
+              <% related_items.forEach(function(related_item) { %>
+              <option value="<%=related_item._id%>"
+                <% if (related_item._id === item.party) { %>selected<% } %>>
+                <%=item.name%>
+              </option>
+              <% }); %>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Image URL:
+            <input name="image" value="<%=item.image%>" type="url"> 
+          </label>
+        </p>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Election Data: Candidates</title>
+  </head>
+  <body>
+    <a href="/"><h1>Election Data</h1></a>
+    <ul>
+      <% items.forEach(function(item) { %>
+      <li><a href="/candidates/<%=item._id%>"><%=item.name%></a></li>
+      <% }); %>
+    </ul>
+    <div>
+      <div>Search for candidates by name</div>
+      <form method="get" action="/candidates/">
+        <p><label>Candidate name: <input name="name"></label></p>
+      </form>
+    </div>
+  </body>
+</html>

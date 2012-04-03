@@ -1,0 +1,16 @@
+<h2 id="page-title"><%= title %></h2>
+<div id="relationships">
+  <ul class="single">
+      <li>
+        <a rel="user" href="/users/<%=items[0].value.user1._id%>" 
+           title="profile for <%=items[0].value.user1._id%>">
+          <span class="user-text"><%= items[0].value.user1.name %></span>
+        </a>
+        <span class="relationship-type"><%=items[0].value.relationshipType%></span>
+        <a rel="user" href="/users/<%=items[0].value.user2._id%>" 
+           title="profile for <%=items[0].value.user2._id%>">
+          <span class="user-text"><%= items[0].value.user2.name %></span>
+        </a>
+      </li>
+  </ul>
+</div>
