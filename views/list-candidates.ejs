@@ -2,18 +2,24 @@
 <html>
   <head>
     <title>Election Data: Candidates</title>
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
     <a href="/"><h1>Election Data</h1></a>
+    <% if (items.length > 0) { %>
     <ul>
       <% items.forEach(function(item) { %>
       <li><a href="/candidates/<%=item._id%>"><%=item.name%></a></li>
       <% }); %>
     </ul>
-    <div>
-      <div>Search for candidates by name</div>
+    <% } else { %>
+    <div>No candidates found.</div>
+    <% } %>
+    <div class="control">
+      <h2>Search for candidates by name</h2>
       <form method="get" action="/candidates/">
-        <p><label>Candidate name: <input name="name"></label></p>
+        <label>Candidate name: <input name="name"></label>
+        <button>Search</button>
       </form>
     </div>
   </body>

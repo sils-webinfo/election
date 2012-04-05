@@ -1,5 +1,5 @@
 {
-  "name": "election", // TODO: change this to the name of your app.
+  "name": "election",
   "version": "0.0.1",
   "engines": {
     "node": "0.6.x",

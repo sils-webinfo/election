@@ -2,40 +2,49 @@
 <html>
   <head>
     <title>Election Data: Parties</title>
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
     <a href="/"><h1>Election Data</h1></a>
+    <% if (items.length > 0) { %>
     <ul>
       <% items.forEach(function(item) { %>
       <li><a href="/parties/<%=item._id%>"><%=item.name%></a></li>
       <% }); %>
     </ul>
-    <div>
-      <div>Add a new political party</div>
-      <form id="create-party" method="post" action="/parties/"
-            onsubmit="this.action = this.action + this.elements.id;">
+    <% } else { %>
+    <div>No parties have been added.</div>
+    <% } %>
+    <div class="control">
+      <h2>Add or update a new political party</h2>
+      <script>
+      function onFormSubmit(form) {
+        form.action = form.action + form.elements['item[id]'].value;
+        console.log(form.action);
+        return true;
+      } 
+      </script>
+      <form method="post" action="/parties/"
+            onsubmit="return onFormSubmit(this);">
         <!-- The line above dynamically sets the PUT destination when the -->
         <!-- form is submitted. -------------------------------------------->
         <input type="hidden" name="_method" value="put">
         <!-- The line above tells the server to treat this as a PUT request. -->
-        <p>
-          <label>Party ID (lowercase letters only, no spaces): 
-            <input name="id" type="text" pattern="[a-z]+" required
-                   placeholder="green">
-          </label>
-        </p>
-        <p>
-          <label>Party name: 
-            <input name="name" type="text" required
-                   placeholder="The Green Party">
-          </label>
-        </p>
-        <p>
-          <label>Party description:
-            <textarea name="description"
-                      placeholder="The Green Party of the United States of America emphasizes environmentalism, non-hierarchical participatory democracy, social justice, respect for diversity, peace and nonviolence.">
-          </label>
-        </p>
+        <label>Party ID<br>
+          (lowercase letters only, no spaces):
+          <input name="item[id]" type="text" pattern="[a-z]+" required
+                 placeholder="green">
+        </label>
+        <label>Party name: 
+          <input name="item[name]" type="text" required
+                 placeholder="The Green Party">
+        </label>
+        <label>Party description:
+          <textarea name="item[description]" cols="80" rows="10" 
+                    placeholder="The Green Party of the United States of America emphasizes environmentalism, non-hierarchical participatory democracy, social justice, respect for diversity, peace and nonviolence."
+          ></textarea>
+        </label>
+        <button>Add or update</button>
       </form>
     </div>
   </body>

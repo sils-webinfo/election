@@ -4,9 +4,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-var ONYEN = 'ryanshaw'; // TODO: change this to your ONYEN.
+var ONYEN = 'ryanshaw'; // TODO: Put your ONYEN here.
 
 ////////////////////////////////////////////////////////////////////////////////
+
+if (! ONYEN) { throw new Error('You must set your Onyen in the app.js file'); }
 
 // Import some utility functions.
 var utils = require('./utils');
@@ -34,9 +36,11 @@ app.put('/parties/:id',      // TODO: change to suit your URI design.
     // Get the item info that was PUT from the input form.
     // See the form in `views/list-parties.ejs`.
     var item = req.body.item;
+    
+    item.type = 'party'; // TODO: change to the type of item you want
 
     // Save the new item to the database, specifying the ID.
-    db.save(item_id, item, function(err, data) {
+    db.save(item_id, item, function(err) {
 
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 
@@ -84,8 +88,10 @@ app.post('/candidates/', // TODO: change to suit your URI design.
     // See the form in `views/one-party.ejs`.
     var item = req.body.item;
 
+    item.type = 'candidate'; // TODO: change to the type of item you want
+
     // Save the new item to the database. (No ID specified, it will be created.)
-    db.save(item, function(err, data) {
+    db.save(item, function(err) {
 
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 
@@ -110,8 +116,10 @@ app.put('/candidates/:id', // TODO: change to suit your URI design.
     // See the form in `views/one-candidate.ejs`.
     var item = req.body.item;
 
+    item.type = 'candidate'; // TODO: change to the type of item you want
+
     // Save the new item to the database, specifying the ID.
-    db.save(item_id, item, function(err, data) {
+    db.save(item_id, item, function(err) {
 
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 

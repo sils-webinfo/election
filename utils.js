@@ -11,6 +11,7 @@ function initializeWebApp() {
   app.configure(function () {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
+    app.set('view options', { layout: false });
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(app.router);
@@ -21,41 +22,60 @@ function initializeWebApp() {
 }
 exports.initializeWebApp = initializeWebApp;
 
-function connectToDatabase(host, name) {
-  var hosturi = 'https://' + host;
+function connectToDatabase(name) {
+  if (! name) { throw Error('Must specify database name'); }
+  var host = 'https://sils-webinfo.iriscouch.com/';
   var port = 443;
   return new (
     function(db) {
-      this.getSome = function(item_type, query, callback) {
-        if (! item_type) { callback('No item type was specified'); }
-        query.type = item_type;
+      this.save = function() { 
+        var args = arguments;
+        db.save.apply(db, args); 
+      };
+      this.filterDocs = function (accept, callback) {
+        var that = this;
         db.all({ include_docs: true }, function(err, rows) {
-          if (err) { return callback(err); }
+          if (err) { return that.handleErr(err, callback); }
           var results = [];
-          rows.forEach(function(row) {
-            for (prop in query) {
-              if (prop in row.doc) {
-                if (typeof(query[prop]) == 'string') {
-                  if (row.doc[prop].indexOf(query[prop]) > 0) {
-                    results.push(row.doc);
-                  }
-                } else {
-                  if (row.doc[prop] === query[prop]) {
-                    results.push(row.doc);
-                  }
-                }
-              }
+          for (var i = 0; i < rows.length; i++) {
+            var doc = rows[i].doc;
+            if (accept(doc)) {
+              results.push(doc); 
             }
-          });
+          }
           return callback(null, results);
         });
       };
+      this.getSome = function(item_type, query, callback) {
+        if (! item_type) { callback('No item type was specified'); }
+        this.filterDocs(function (doc) {
+          if (doc.type !== item_type ) { return false; }
+          for (var prop in query) {
+            if (prop in doc) {
+              if (typeof(query[prop]) == 'string') {
+                if (doc[prop].toLowerCase().indexOf(query[prop].toLowerCase()) < 0) {
+                  return false;
+                } 
+              } else {
+                if (doc.doc[prop] !== query[prop]) {
+                  return false;
+                }
+              }
+            }
+          }
+          return true;
+        }, callback);
+      };
       this.getAll = function(item_type, callback) {
-        this.getSome(item_type, {}, callback);
+        if (! item_type) { callback('No item type was specified'); }
+        this.filterDocs(function (doc) { 
+          return doc.type === item_type; 
+        }, callback);
       };
       this.getOne = function(item_type, item_id, callback) {
+        var that = this;
         db.get(item_id, function(err, doc) {
-          if (err) { return callback(err); }
+          if (err) { return that.handleErr(err, callback); }
           if (doc.type !== item_type) {
             return callback({ 
                 error: 'not found', 
@@ -64,7 +84,12 @@ function connectToDatabase(host, name) {
           return callback(null, doc);
         });
       };
-    })(new(cradle.Connection)(hosturi, port).database(name));
+      this.handleErr = function(err, callback) {
+        console.trace();
+        console.error(err);
+        callback(err); 
+      };
+    })(new(cradle.Connection)(host, port).database(name));
 }
 exports.connectToDatabase = connectToDatabase;
 

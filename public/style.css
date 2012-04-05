@@ -1,0 +1,23 @@
+.control {
+  border: 1px solid gray;
+  margin: 30px 10px 10px;
+  padding: 10px;
+}
+.control h2 {
+  margin: 10px 0; 
+}
+label, input, textarea, select, button {
+  display: block;  
+}
+label {
+  padding-top: 10px; 
+}
+button {
+  margin-top: 20px;
+} 
+dt {
+  font-weight: bold;
+}
+dd {
+  margin: 0 0 10px 0;
+}
