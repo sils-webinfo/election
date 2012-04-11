@@ -4,11 +4,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-var ONYEN = ''; // TODO: Put your ONYEN here.
+var USER_OR_GROUP_NAME = ''; // TODO: Insert GitHub username or group name.
 
 ////////////////////////////////////////////////////////////////////////////////
 
-if (! ONYEN) { throw new Error('You must set your Onyen in the app.js file'); }
+if (! USER_OR_GROUP_NAME) { 
+  throw new Error(
+    'You must set your GitHub username or group name in the app.js file'); 
+}
 
 // Import some utility functions.
 var utils = require('./utils');
@@ -17,7 +20,7 @@ var utils = require('./utils');
 var app = utils.initializeWebApp();
 
 // Connect to your database.
-var db = utils.connectToDatabase(ONYEN);
+var db = utils.connectToDatabase(USER_OR_GROUP_NAME);
 
 // TODO: Start defining your resource handlers. You may just need to modify the
 // examples below, or you may need to add additional handlers by copying,
