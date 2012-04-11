@@ -28,6 +28,13 @@ function connectToDatabase(name) {
   var port = 443;
   return new (
     function(db) {
+      db.exists(function (err, exists) {
+        if (err) { console.log('error', err); } 
+        else if (! exists) {
+          db.create();
+          console.log('Created new database.');
+        }      
+      });
       this.save = function() { 
         var args = arguments;
         db.save.apply(db, args); 
