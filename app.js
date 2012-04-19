@@ -261,11 +261,7 @@ app.get('/candidates/:id',       // TODO: change to suit your URI design.
 // Handle GET of the "index" resource.
 app.get('/', 
   function(req, res) {
-    if ('_escaped_fragment_' in req.query) {
-      res.redirect(req.query['_escaped_fragment_']);
-    } else {
-      res.render('index'); 
-    }
+    res.render('index'); 
   }
 );
 

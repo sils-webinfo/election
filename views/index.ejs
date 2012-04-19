@@ -13,11 +13,11 @@
 var loaded = null;
 function load(path) {
   if (path === "") { path = "/parties/"; }
-  if (path.slice(0,1) === "#") { path = path.slice(2); }
+  if (path.slice(0,1) === "#") { path = path.slice(1); }
   if (path === loaded) { return; }
   $.get(path, function (data) {
     if (loaded !== null) {
-      window.location.hash = '#!' + path;
+      window.location.hash = '#' + path;
     }
     loaded = path;
     $('#display').html(data);
