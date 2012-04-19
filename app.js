@@ -60,7 +60,7 @@ app.put('/parties/:id',      // TODO: change to suit your URI design.
 ////////////////////////////////////////////////////////////////////////////////
 app.get('/parties/',         // TODO: change to suit your URI design. 
   function(req, res) {
-
+    
     var item_type = 'party'; // TODO: change to the type of item you want.
 
     // Get all items of the specified type from the database.
@@ -166,7 +166,7 @@ app.get('/candidates/',          // TODO: change to suit your URI design.
 ////////////////////////////////////////////////////////////////////////////////
 app.get('/parties/:id',      // TODO: change to suit your URI design.
   function(req, res) {
-
+    
     var item_type = 'party'; // TODO: change to the type of item you want.
 
     // Get the item ID from the URI.
@@ -261,11 +261,7 @@ app.get('/candidates/:id',       // TODO: change to suit your URI design.
 // Handle GET of the "index" resource.
 app.get('/', 
   function(req, res) {
-    if ('_escaped_fragment_' in req.query) {
-      res.redirect(req.query['_escaped_fragment_']);
-    } else {
-      res.render('index'); 
-    }
+    res.render('index'); 
   }
 );
 
