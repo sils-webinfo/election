@@ -12,8 +12,13 @@
     <script>
 var loaded = null;
 function load(path) {
+  if (path === "") { path = "/parties/"; }
+  if (path.slice(0,1) === "#") { path = path.slice(2); }
   if (path === loaded) { return; }
   $.get(path, function (data) {
+    if (loaded !== null) {
+      window.location.hash = '#!' + path;
+    }
     loaded = path;
     $('#display').html(data);
     $('.toggle').toggle();
@@ -21,6 +26,10 @@ function load(path) {
     $("form").submit(onFormSubmit);
   });
 }
+function onHashChange() {
+  load(window.location.hash);
+}
+window.onhashchange = onHashChange;
 function onLinkClick(click) {
   click.preventDefault();
   var href = $(this).attr('href');
@@ -48,7 +57,7 @@ function onFormSubmit(submit) {
   }
   $.ajax(o);
 }
-load('/parties/');
+load(window.location.hash);
 $('#parties-button').click(function() { load('/parties/'); });
 $('#candidates-button').hide().click(function() { load('/candidates/'); });
     </script>
