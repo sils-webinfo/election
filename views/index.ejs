@@ -1,15 +1,56 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Election Data: Home</title>
+    <title>Election Data</title>
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <a href="/"><h1>Election Data</h1></a>
-    <div>
-      <a href="/parties/"><h2>List of political parties</h2></a>
-    <div>
-    <div>
-      <a href="/candidates/"><h2>List of candidates</h2></a>
-    <div>
+    <div id="display"></div>
+    <button id="candidates-button" class="toggle" type="button">View candidates</button>
+    <button id="parties-button" class="toggle" type="button">View parties</button>
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script>
+var loaded = null;
+function load(path) {
+  if (path === loaded) { return; }
+  $.get(path, function (data) {
+    loaded = path;
+    $('#display').html(data);
+    $('.toggle').toggle();
+    $("a").click(onLinkClick);
+    $("form").submit(onFormSubmit);
+  });
+}
+function onLinkClick(click) {
+  click.preventDefault();
+  var href = $(this).attr('href');
+  if (href == '/') { load('/parties/'); }
+  else { load(href); }
+}
+function onFormSubmit(submit) {
+  submit.preventDefault();
+  var form = $(this);
+  var o = { 
+    url: form.attr('action'),
+    type: form.attr('method'),
+    data: form.serialize(),
+    success: function(data, status, xhr) {
+      if (status == 'success') {
+        load(xhr.getResponseHeader('Location'));
+      } else {
+        $('#display').html('<span class="error">Hmmm... something broke.</span>');
+      } 
+    }
+  };
+  if (o.type == 'put' && 'item[id]' in this.elements) {
+    o.url += this.elements['item[id]'].value;
+    o.data = o.data.split('&').slice(1).join('&');
+  }
+  $.ajax(o);
+}
+load('/parties/');
+$('#parties-button').click(function() { load('/parties/'); });
+$('#candidates-button').hide().click(function() { load('/candidates/'); });
+    </script>
   </body>
 </html>

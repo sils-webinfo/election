@@ -17,19 +17,7 @@
     <% } %>
     <div class="control">
       <h2>Add or update a new political party</h2>
-      <script>
-      function onFormSubmit(form) {
-        form.action = form.action + form.elements['item[id]'].value;
-        console.log(form.action);
-        return true;
-      } 
-      </script>
-      <form method="post" action="/parties/"
-            onsubmit="return onFormSubmit(this);">
-        <!-- The line above dynamically sets the PUT destination when the -->
-        <!-- form is submitted. -------------------------------------------->
-        <input type="hidden" name="_method" value="put">
-        <!-- The line above tells the server to treat this as a PUT request. -->
+      <form method="put" action="/parties/">
         <label>Party ID<br>
           (lowercase letters only, no spaces):
           <input name="item[id]" type="text" pattern="[a-z]+" required

@@ -4,7 +4,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-var USER_OR_GROUP_NAME = ''; // TODO: Insert GitHub username or group name.
+var USER_OR_GROUP_NAME = 'ryanshaw'; // TODO: Insert GitHub username or group name.
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -48,8 +48,8 @@ app.put('/parties/:id',      // TODO: change to suit your URI design.
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 
       
-      // Otherwise, redirect back to the URI from which the form was submitted.
-      else { res.redirect('back' ); }
+      // Otherwise, send back the location of the created/updated item.
+      else { res.send('', { Location: '/parties/' + item_id }, 204); }
     });
   }
 );
@@ -94,13 +94,13 @@ app.post('/candidates/', // TODO: change to suit your URI design.
     item.type = 'candidate'; // TODO: change to the type of item you want
 
     // Save the new item to the database. (No ID specified, it will be created.)
-    db.save(item, function(err) {
+    db.save(item, function(err, item) {
 
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 
       
-      // Otherwise, redirect back to the URI from which the form was submitted.
-      else { res.redirect('back' ); }
+      // Otherwise, send back the location of the created item.
+      else { res.send('', { Location: '/candidates/' + item.id }, 204); }
     });
   }
 );
@@ -127,8 +127,8 @@ app.put('/candidates/:id', // TODO: change to suit your URI design.
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 
       
-      // Otherwise, redirect back to the URI from which the form was submitted.
-      else { res.redirect('back' ); }
+      // Otherwise, send back the location of the updated item.
+      else { res.send('', { Location: '/candidates/' + item_id }, 204); }
     });
   }
 );
