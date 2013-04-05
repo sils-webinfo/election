@@ -1,6 +1,6 @@
 # An example web information service
 
-This is an example application intended to be used as a starting point for the final project in [INLS 490-186 Web Information Organization](http://aeshin.org/teaching/inls-490-186/2012/sp/).
+This is an example application intended to be used as a starting point for the final project in [INLS 490-186 Web Information Organization](http://aeshin.org/teaching/inls-490-186/2013/sp/).
 
 ## Forking this repository
 
