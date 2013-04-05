@@ -30,12 +30,12 @@ There are only three places where the example service needs to be modified to im
 
 ## Testing your code
 
-To run your project, simply open `app.js` and click the `debug` button at the top of the screen (it looks like a green play button). You should see a message like this in the console:
+To run your project, simply open `app.js` and click the `Run` button at the top of the screen (it looks like a green play button). You should see a message like this in the console:
 
 ```
-Tip: you can access long running processes, like a server, at 'http://election.rybesh.c9.io'.
-Important: in your scripts, use 'process.env.PORT' as port and '0.0.0.0' as host.
-debugger listening on port 54263
+Running Node Process
+Your code is running at 'http://election.rybesh.c9.io'.
+Important: use 'process.env.PORT' as the port and 'process.env.IP' as the host in your scripts!
 ```
 
 Clicking on the URL (in my case, `http://election.rybesh.c9.io` since `rybesh` is my GitHub/Cloud9 username) should open a new browser tab or window to your web app.
