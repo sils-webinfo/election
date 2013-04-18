@@ -18,7 +18,9 @@
     </dl>
     <div class="control">
       <h2>Update candidate</h2>
-      <form method="put" action="/candidates/<%=item._id%>">
+      <form method="post" action="/candidates/<%=item._id%>">
+        <input type="hidden" name="_method" value="put">
+        <!-- The line above tells the server to treat this as a PUT request. -->
         <label>Name: 
           <input name="item[name]" value="<%=item.name%>" type="text" required>
         </label>

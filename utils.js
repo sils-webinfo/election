@@ -13,6 +13,7 @@ function initializeWebApp() {
     app.set('view engine', 'ejs');
     app.set('view options', { layout: false });
     app.use(express.bodyParser());
+    app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
@@ -30,10 +31,8 @@ function connectToDatabase(name) {
       db.exists(function (err, exists) {
         if (err) { console.log('error', err); } 
         else if (! exists) {
-          db.create(function(err) {
-            if (err) { console.error(err); }
-            else { console.log('Created new database.'); }
-          });
+          db.create();
+          console.log('Created new database.');
         }      
       });
       this.save = function() { 
