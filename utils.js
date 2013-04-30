@@ -39,6 +39,10 @@ function connectToDatabase(name) {
         var args = arguments;
         db.save.apply(db, args); 
       };
+      this.remove = function() { 
+        var args = arguments;
+        db.remove.apply(db, args); 
+      };
       this.filterDocs = function (accept, callback) {
         var that = this;
         db.all({ include_docs: true }, function(err, rows) {
