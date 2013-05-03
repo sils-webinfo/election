@@ -63,13 +63,20 @@ function connectToDatabase(name) {
           if (doc.type !== item_type ) { return false; }
           for (var prop in query) {
             if (prop in doc) {
-              if (typeof(query[prop]) == 'string') {
-                if (doc[prop].toLowerCase().indexOf(query[prop].toLowerCase()) < 0) {
+              if (Array.isArray(doc.doc[prop])) {
+                if (doc.doc[prop].indexOf(query[prop]) < 0) {
                   return false;
-                } 
+                }
               } else {
-                if (doc.doc[prop] !== query[prop]) {
-                  return false;
+                if (typeof(query[prop]) == 'string') {
+                  if (doc[prop].toLowerCase().indexOf(
+                        query[prop].toLowerCase()) < 0) {
+                    return false;
+                  } 
+                } else {
+                  if (doc.doc[prop] !== query[prop]) {
+                    return false;
+                  }
                 }
               }
             }
