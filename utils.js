@@ -77,6 +77,7 @@ function connectToDatabase(name) {
       }
       this.getSome = function(item_type, query, callback) {
         if (! item_type) { callback('No item type was specified'); }
+        var that = this;
         this.filterDocs(function (doc) {
           if (doc.type !== item_type ) { return false; }
           for (var prop in query) {
@@ -85,13 +86,13 @@ function connectToDatabase(name) {
             } else {
               if (Array.isArray(query[prop])) {
                 query[prop].forEach(function (q) {
-                  if (this.match(q, doc[prop])) {
+                  if (that.match(q, doc[prop])) {
                     return true;
                   }
                 });
                 return false;
               } else {
-                return this.match(query[prop], doc[prop]);
+                return that.match(query[prop], doc[prop]);
               }
             }
           }
