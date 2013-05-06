@@ -57,27 +57,41 @@ function connectToDatabase(name) {
           return callback(null, results);
         });
       };
+      this.match = function(query, candidate) {
+        if (Array.isArray(candidate)) {
+          if (candidate.indexOf(query) < 0) {
+            return false;
+          }
+        } else {
+          if (typeof(query) == 'string') {
+            if (candidate.toLowerCase().indexOf(query.toLowerCase()) < 0) {
+              return false;
+            } 
+          } else {
+            if (candidate !== query) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
       this.getSome = function(item_type, query, callback) {
         if (! item_type) { callback('No item type was specified'); }
         this.filterDocs(function (doc) {
           if (doc.type !== item_type ) { return false; }
           for (var prop in query) {
-            if (prop in doc) {
-              if (Array.isArray(doc.doc[prop])) {
-                if (doc.doc[prop].indexOf(query[prop]) < 0) {
-                  return false;
-                }
-              } else {
-                if (typeof(query[prop]) == 'string') {
-                  if (doc[prop].toLowerCase().indexOf(
-                        query[prop].toLowerCase()) < 0) {
-                    return false;
-                  } 
-                } else {
-                  if (doc.doc[prop] !== query[prop]) {
-                    return false;
+            if (! prop in doc) {
+              return false;
+            } else {
+              if (Array.isArray(query[prop])) {
+                query[prop].forEach(function (q) {
+                  if (this.match(q, doc[prop])) {
+                    return true;
                   }
-                }
+                });
+                return false;
+              } else {
+                return this.match(query[prop], doc[prop]);
               }
             }
           }
